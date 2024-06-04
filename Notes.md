@@ -38,3 +38,12 @@ In some sense, while our embedding table or vocabulary only has 26 entries perta
 This is the tradeoff between the token lookup table and context length. Increasing the embedding table size can enhance context processing but risks sparsity if embeddings for infrequent character sequences aren't sufficiently trained. Now, we might ask, if this is the case, then why don't we increase the embedding lookup table's size by an arbitrary amount? The catch here is that it leads to sparsity of information. Each embedding in the lookup table is only used when it is encountered as a part of the input. Hence, the embedding needs to appear a threshold number of times in the training set to be sufficiently modified to have an optimal value. If we keep making new embedding entries into the lookup table for arbitrary sequences of characters, but can't ensure their existence in the training set, we won't actually be able to train the network—in our case, the language model—effectively.
 
 In summary, while increasing the embedding table size can improve model performance by capturing more context, it also increases computational cost and memory usage, and requires sufficient training data to avoid sparsity and underrepresentation of infrequent tokens. Hybrid tokenization methods, such as Byte-Pair Encoding (BPE) or SentencePiece, are often used to balance this tradeoff by creating subword units that are more frequent and better trained.
+
+# A little bit of a segue into Unicode
+
+Good Reference: [A Programmer’s Introduction to Unicode](https://www.reedbeta.com/blog/programmers-intro-to-unicode/)
+It is important to understand how strings are represented as byte streams and how they are encoded and decoded for users.
+This can be thought as the first level of abstraction already present between human readable language and machine interpreted language.
+With tokenization, we can say that we are providing an additional layer of abstraction or a different layer of abstraction by converting these byte streams into a formast which is more beffiting for an input to a neural network model.
+We have discussed the major ideas that we want to ensure with the design of individual tokens and the token table as a whole.
+BPE: Byte Pair Encoding is one of the most popular techniques of tokenization; but before we can fully understand BPE we need to understand what the B in BPE stands for. The B precisely stands for the pairing of byte level units which are achieved through the encoding of unicode (possibly UTF-8, UTF-16 or even UTF-32 (less likely)).
